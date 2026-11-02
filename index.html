@@ -295,7 +295,7 @@
 
     <!-- MODAL PORTAL ADMIN -->
     <div id="adminModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-5xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+        <div class="bg-white rounded-2xl max-w-5xl w-full h-[90vh] flex flex-col shadow-2xl overflow-hidden">
             
             <!-- ADMIN LOGIN VIEW -->
             <div id="adminLoginView" class="p-8 space-y-6 max-w-md mx-auto w-full my-auto">
@@ -327,9 +327,9 @@
                 </form>
             </div>
 
-            <!-- ADMIN DASHBOARD VIEW -->
-            <div id="adminDashboardView" class="hidden flex flex-col h-full">
-                <div class="p-6 bg-[#52371c] text-white flex items-center justify-between">
+            <!-- ADMIN DASHBOARD VIEW (FIXED SCROLL) -->
+            <div id="adminDashboardView" class="hidden flex flex-col h-full overflow-hidden">
+                <div class="p-6 bg-[#52371c] text-white flex items-center justify-between shrink-0">
                     <div>
                         <h3 class="text-xl font-bold">Dashboard Admin Sistem</h3>
                         <p class="text-xs text-amber-200">Rekod diselaraskan terus dari Google Sheets PINOVAS 2026.</p>
@@ -432,7 +432,7 @@
     <!-- MODAL BUTIRAN PENILAIAN -->
     <div id="detailModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
-            <div class="p-6 bg-[#52371c] text-white flex items-center justify-between">
+            <div class="p-6 bg-[#52371c] text-white flex items-center justify-between shrink-0">
                 <h3 class="text-lg font-bold">Butiran penilaian</h3>
                 <div class="flex gap-2">
                     <button onclick="window.print()" class="px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-lg text-xs font-bold text-white flex items-center gap-1.5">
@@ -636,7 +636,7 @@
 
             const payload = {
                 id: 'PINOVAS-' + Math.random().toString(36).substr(2, 9),
-                timestamp: new Date().toLocaleString(),
+                timestamp: new Date().toISOString(),
                 school: school,
                 team: team,
                 project: project,
@@ -706,7 +706,6 @@
             });
         }
 
-        // Muat data terus secara LIVE dari Google Sheets
         async function loadAdminData() {
             const tbody = document.getElementById('adminTableBody');
             tbody.innerHTML = `<tr><td colspan="8" class="p-6 text-center text-stone-400"><i class="fa-solid fa-spinner fa-spin"></i> Memuatkan data terus dari Google Sheets...</td></tr>`;
@@ -825,7 +824,6 @@
 
         function deleteSubmission(timestamp, school, project) {
             if(confirm("Adakah anda pasti mahu memadam rekod ini dari Google Sheets?")) {
-                // Hantar arahan padam ke Google Apps Script
                 fetch(GOOGLE_SHEET_WEB_APP_URL, {
                     method: 'POST',
                     mode: 'no-cors',
